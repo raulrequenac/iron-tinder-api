@@ -25,8 +25,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session);
 
 app.use((req, _, next) => {
-  req.currentUser = req.session.user
-  next()
+  if (!req.session.user) return next()
+
+  User.findById(req.session.user.id)
+    .then(user => {
+      req.currentUser = user
+      next()
+    })
 })
 
 /**
