@@ -8,6 +8,7 @@ const MatchesController = require('../controllers/Matches.controller')
 router.post('/login', UsersController.login)
 router.post('/logout', UsersController.logout)
 
+router.get('/users', UsersController.getUsers)
 router.post('/users/register',  UsersController.register)
 router.get('/users/randomUser', UsersController.getRandomUser)
 

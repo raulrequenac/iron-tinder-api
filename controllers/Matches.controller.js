@@ -8,7 +8,7 @@ module.exports.getMatches = (req, res, next) => {
 
   Promise.all([LikePromise, LikedPromise])
     .then(([likes, likeds]) => {
-      const matches = likeds.filter(({user}) => likes.map(({userLiked}) => userLiked).includes(user))
+      const matches = likeds.map(({user}) => user).filter(user => likes.map(({userLiked}) => userLiked.id).includes(user.id))
       res.json(matches)
     })
     .catch(next)
