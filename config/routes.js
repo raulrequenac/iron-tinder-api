@@ -9,9 +9,9 @@ router.post('/login', UsersController.login)
 router.post('/logout', UsersController.logout)
 
 router.post('/users/register',  UsersController.register)
-router.get('/users/matches', UsersController.getMatches)
 router.get('/users/randomUser', UsersController.getRandomUser)
 
+router.get('/users/matches', MatchesController.getMatches)
 router.post('/users/:id/like', MatchesController.like)
 router.post('/users/:id/dislike', MatchesController.dislike)
 

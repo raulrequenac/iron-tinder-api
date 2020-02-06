@@ -6,6 +6,7 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose')
+const User = require('./models/User.model')
 
 require('./config/db.config');
 

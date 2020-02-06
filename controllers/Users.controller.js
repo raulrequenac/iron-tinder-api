@@ -43,31 +43,16 @@ module.exports.register = (req, res, next) => {
     .catch(next)
 }
 
-module.exports.getMatches = (req, res, next) => {
-  const id = req.currentUser.id
-  const LikePromise = Like.find({user: id}).populate('userLiked')
-  const LikedPromise = Like.find({userLiked: id}).populate('user')
-
-  Promise.all([LikePromise, LikedPromise])
-    .then(([likes, likeds]) => {
-      const matches = likeds.filter(({user}) => likes.map(like => like.userLiked).includes(user))
-      res.json(matches)
-    })
-    .catch(next)
-}
-
 module.exports.getRandomUser = (req, res, next) => {
   const id = req.currentUser.id
   const LikePromise = Like.find({user: id}).populate('userLiked')
   const DislikedPromise = Dislike.find({user: id}).populate('userDisliked')
+  const UserPromise = User.find()
 
-  Promise.all([LikePromise, DislikedPromise])
-    .then(([likes, dislikes]) => {
-      User.find()
-        .then(users => {
-          const randomUsers = users.filter(user => !likes.includes(user) && !dislikes.includes(user))
-          const random = Math.floor(Math.random() * randomUsers.length)
-          res.json(randomUsers[random])
-        })
+  Promise.all([UserPromise, LikePromise, DislikedPromise])
+    .then(([users, likes, dislikes]) => {
+      const randomUsers = users.filter(user => !likes.includes(user) && !dislikes.includes(user))
+      const random = Math.floor(Math.random() * randomUsers.length)
+      res.json(randomUsers[random])
     })
 }
